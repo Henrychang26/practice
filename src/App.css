@@ -1,10 +1,29 @@
 .App {
   text-align: center;
+  background-image: linear-gradient(#ffeef8, #ffffff);
+  min-height: 100vh;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#root {
+  min-height: 100vh;
+}
+
+.modal-content {
+  background-color: #fff !important;
+  width: 500px !important;
+}
+
+.navbar {
+  padding: 12px 20px !important;
+}
+
+.nav-item {
+  padding: 8px 16px;
+  font-size: 18px;
+}
+
+.active {
+  font-weight: 600 !important;
 }
 
 @media (prefers-reduced-motion: no-preference) {

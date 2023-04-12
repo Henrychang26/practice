@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router";
+import Layout from "./pages/Layout";
+import Swap from "./pages/Swap";
+import Pool from "./pages/Pool";
+import "./App.css";
 
-function App() {
+const App: React.FC = (): JSX.Element => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="pool" element={<Pool />} />
+          <Route path="*" element={<Swap />} />
+        </Route>
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;
