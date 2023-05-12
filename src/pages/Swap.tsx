@@ -4,6 +4,7 @@ import SelectTokenModal from "../components/SelectTokenModal";
 import { getQuote } from "../services/QuoteService";
 import TokenSelect from "../components/TokenSelect";
 import {
+  Balance,
   Page,
   PriceContainer,
   PriceText,
@@ -18,11 +19,14 @@ import useSymbols from "../hooks/useSymbols";
 import useAmount from "../hooks/useAmount";
 import useMetaMask from "../hooks/useMetaMask";
 import * as PriceService from "../services/PriceService";
+import useWalletBalances from "../hooks/useWalletBalances";
+import useDecimals from "../hooks/useDecimals";
 
 function Swap() {
   //   const { _connectMetaMask, tryConnectingMetaMask, _signer, _walletAddress } =
   //     useMetaMask();
-  const { tryConnectingMetaMask } = useMetaMask();
+  const { connectMetaMask, signer, tryConnectingMetaMask, walletAddress } =
+    useMetaMask();
   const { inputSymbol, setInputSymbol, outputSymbol, setOutputSymbol } =
     useSymbols();
   const { inputAmount, setInputAmount, outputAmount, setOutputAmount } =
@@ -61,6 +65,19 @@ function Swap() {
     calculatePriceImpact();
   }, [inputAmount, inputSymbol, outputSymbol]);
 
+  const { inputWalletBalance, outputWalletBalance, setWalletBalances } =
+    useWalletBalances();
+
+  const { inputDecimals, outputDecimals, setDecimals } = useDecimals();
+
+  useEffect(() => {
+    setWalletBalances({ inputSymbol, outputSymbol });
+    setDecimals(inputSymbol, outputSymbol);
+  }, [inputSymbol, outputSymbol]);
+
+  useEffect(() => {
+    setWalletBalances({ inputSymbol, outputSymbol });
+  }, [signer]);
   return (
     <Page>
       <SwapContainer>
@@ -81,6 +98,9 @@ function Swap() {
               isInput={true}
             />
           </TokenRow>
+          <Balance>
+            {Utils.hexToHumanAmount(inputWalletBalance!, inputDecimals!, 3)}
+          </Balance>
         </TokenContainer>
         <TokenContainer>
           <TokenRow>
@@ -98,6 +118,9 @@ function Swap() {
               isInput={false}
             />
           </TokenRow>
+          <Balance>
+            {Utils.hexToHumanAmount(outputWalletBalance!, outputDecimals!, 3)}
+          </Balance>
         </TokenContainer>
 
         {priceImpact && (

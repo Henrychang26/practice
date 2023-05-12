@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { tokenSymbols, tokenInfos } from "../constants";
 import {
   Logo,
@@ -11,7 +12,11 @@ import {
   ModalLine,
   TokenName,
   TokenSymbol,
+  LastColumn,
 } from "../styles/SelectTokenModalStyles";
+import AccountService from "../services/AccountService";
+import { getWalletBalance } from "../services/WalletService";
+import Utils from "../utils/Utils";
 
 type SelectTokenModalProps = {
   setInputSymbol: (value: string) => void;
@@ -28,6 +33,33 @@ const SelectTokenModal = ({
 }: SelectTokenModalProps) => {
   const setToken = (symbol: string) =>
     isInput ? setInputSymbol(symbol) : setOutputSymbol(symbol);
+
+  const [walletBalances, setWalletBalances] = useState<{
+    [key: string]: number | string;
+  }>({});
+
+  const setTokenWalletBalances = async () => {
+    const { walletAddress } = await AccountService.getAccountData();
+
+    await Promise.all(
+      tokenSymbols.map(async (symbol: string) => {
+        let balance: number | string = 0;
+
+        if (!!walletAddress) {
+          balance = await getWalletBalance(symbol);
+        }
+        balance = Utils.hexToHumanAmount(balance, tokenInfos[symbol].decimals);
+        setWalletBalances((prev) => ({ ...prev, [symbol]: balance }));
+      })
+    );
+  };
+
+  useEffect(() => {
+    setTokenWalletBalances();
+  }, []);
+  if (Object.keys(walletBalances).length !== tokenSymbols.length) {
+    return null;
+  }
 
   return (
     <ModalBackground onClick={onClose}>
@@ -53,6 +85,9 @@ const SelectTokenModal = ({
                 <TokenName>{tokenInfos[symbol].name}</TokenName>
                 <TokenSymbol>{symbol}</TokenSymbol>
               </MiddleColumn>
+              <LastColumn className="col-md-3">
+                {walletBalances[symbol]}
+              </LastColumn>
             </Row>
           ))}
         </ModalBody>

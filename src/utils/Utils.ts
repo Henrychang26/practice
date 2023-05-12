@@ -21,7 +21,7 @@ export type ValidateInputs = {
 
 const weiToTokenAmount = (
   amount: ethers.BigNumberish,
-  decimals: string | ethers.Numeric | undefined
+  decimals: string | ethers.Numeric
 ) => ethers.formatUnits(amount, decimals);
 
 export default {
