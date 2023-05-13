@@ -22,6 +22,7 @@ import * as PriceService from "../services/PriceService";
 import useWalletBalances from "../hooks/useWalletBalances";
 import useDecimals from "../hooks/useDecimals";
 import SwapButton from "../components/SwapButton";
+import SwapService from "../services/SwapService";
 
 function Swap() {
   //   const { _connectMetaMask, tryConnectingMetaMask, _signer, _walletAddress } =
@@ -36,9 +37,25 @@ function Swap() {
   const [isInput, setIsInput] = useState<boolean>();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [priceImpact, setPriceImpact] = useState<string | undefined>("");
-  const swapTokens = async () => {};
   const [isConfirming, setIsConfirming] = useState(false);
   const [isTransacting, setIsTransacting] = useState(false);
+
+  const swapTokens = async () => {
+    if (!Utils.validateInputs({ inputSymbol, outputSymbol, inputAmount }))
+      return;
+
+    if (walletAddress === null) return;
+
+    await SwapService.swapToken({
+      inputAmount,
+      inputSymbol,
+      outputSymbol,
+      setIsTransacting,
+      setIsConfirming,
+      minutesToDeadline: 10,
+    });
+    setWalletBalances({ inputSymbol, outputSymbol });
+  };
 
   const calculateQuote = async () => {
     const quotedOutput = await getQuote(inputAmount, inputSymbol, outputSymbol);

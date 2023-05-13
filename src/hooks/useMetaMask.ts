@@ -3,7 +3,9 @@ import AccountService from "../services/AccountService";
 import { useState } from "react";
 
 const useMetaMask = () => {
-  const [signer, setSigner] = useState<ethers.JsonRpcSigner | null>(null);
+  const [signer, setSigner] = useState<ethers.providers.JsonRpcSigner | null>(
+    null
+  );
   const [walletAddress, setWalletAddress] = useState<string>();
 
   const connectMetaMask = async () => {

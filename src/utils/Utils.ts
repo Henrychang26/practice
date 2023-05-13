@@ -21,8 +21,8 @@ export type ValidateInputs = {
 
 const weiToTokenAmount = (
   amount: ethers.BigNumberish,
-  decimals: string | ethers.Numeric
-) => ethers.formatUnits(amount, decimals);
+  decimals: string | number
+) => ethers.utils.formatUnits(amount, decimals);
 
 export default {
   decimalToPercent: (decimalValue: number, decimalPlaces = 3) =>
@@ -60,8 +60,8 @@ export default {
 
   tokensToWei: (
     inputAmount: string,
-    inputDecimals: string | ethers.Numeric | undefined
-  ) => ethers.parseUnits(inputAmount, inputDecimals),
+    inputDecimals: string | number | undefined
+  ) => ethers.utils.parseUnits(inputAmount, inputDecimals),
 
   getMetaMaskIcon: (walletAddress: string) => {
     const addr = walletAddress.slice(2, 10);

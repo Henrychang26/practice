@@ -1,19 +1,6 @@
 import { contracts, tokenInfos } from "../constants";
 import AccountService from "./AccountService";
 import { getToken } from "./ContractService";
-import { ContractTransaction } from "ethers/types/ethers";
-
-// export interface isApprovedToken {
-//   tokenSymbol: string;
-//   spenderAddress: string;
-// }
-
-// export interface approveTokens {
-//   tokenSymbol: string;
-//   spenderAddress: string;
-//   setIsApproving: (value: boolean) => void;
-//   setIsAskingForPermission: (value: boolean) => void;
-// }
 
 export default {
   isApprovedToken: async (tokenSymbol: string, spenderAddress: string) => {
@@ -35,19 +22,13 @@ export default {
     setIsAskingForPermission: (value: boolean) => void
   ) => {
     const contract = getToken(tokenSymbol);
-    const { signer, provider } = await AccountService.getAccountData();
-    console.log(signer);
-    console.log(contract.connect(signer));
+    const { signer } = await AccountService.getAccountData();
+
     try {
       const maxAllowance = tokenInfos[tokenSymbol].maxAllowance;
 
-      //   const tx = await contract
-      //     .connect(signer)
-      //     .getFunction("approve")
-      //     .call(spenderAddress, maxAllowance);
-      //   console.log(APPROVE);
-      const tx: ContractTransaction = await contract
-        .connect(signer)
+      const tx = await contract
+        .connect(signer!)
         .approve(spenderAddress, maxAllowance);
 
       setIsAskingForPermission(false);
@@ -70,9 +51,9 @@ export default {
     const uniContract = getToken("UNI");
     const usdcContract = getToken("WUSDC");
 
-    wethContract.approve(contracts.SWAPROUTER.address, 0);
-    uniContract.approve(contracts.SWAPROUTER.address, 0);
-    usdcContract.approve(contracts.SWAPROUTER.address, 0);
+    wethContract.connect(signer!).approve(contracts.SWAPROUTER.address, 0);
+    uniContract.connect(signer!).approve(contracts.SWAPROUTER.address, 0);
+    usdcContract.connect(signer!).approve(contracts.SWAPROUTER.address, 0);
   },
 };
 

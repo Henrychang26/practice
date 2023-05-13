@@ -1,17 +1,17 @@
 import { ethers } from "ethers";
 
-const getProvider = () => new ethers.BrowserProvider(window.ethereum);
+const getProvider = () => new ethers.providers.Web3Provider(window.ethereum);
 
 const getSigner = async () => {
   const provider = getProvider();
   const accounts = await provider.send("eth_accounts", []);
   if (accounts.length > 0) {
-    return await provider.getSigner();
+    return provider.getSigner();
   }
   return null;
 };
 
-const signerAddress = async (signer: ethers.JsonRpcSigner | null) =>
+const signerAddress = async (signer: ethers.providers.JsonRpcSigner | null) =>
   signer?.getAddress();
 
 export default {
@@ -20,7 +20,7 @@ export default {
   connectWallet: async () => {
     const provider = getProvider();
     await provider.send("eth_requestAccounts", []);
-    const signer = await provider.getSigner();
+    const signer = provider.getSigner();
     const walletAddress = await signerAddress(signer);
     return { provider, signer, walletAddress };
   },

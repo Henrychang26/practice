@@ -62,7 +62,7 @@ export const getPriceImpact = async (
 
   const quoter = getQuoter2();
 
-  const quote: quoteType = await quoter.quoteExactInputSingle.staticCall(
+  const quote: quoteType = await quoter.callStatic.quoteExactInputSingle(
     params
   );
   const sqrtPriceX96After = parseFloat(quote.sqrtPriceX96After);

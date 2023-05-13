@@ -10,10 +10,10 @@ import {
   swapTheme,
 } from "../styles/SwapButtonStyles";
 import useApproval from "../hooks/useApproval";
-import { JsonRpcSigner } from "ethers/types/providers/provider-jsonrpc";
+import { ethers } from "ethers";
 
 type swapButtonProps = {
-  signer: JsonRpcSigner | null;
+  signer: ethers.providers.JsonRpcSigner | null;
   inputSymbol: string;
   outputSymbol: string;
   inputAmount: string | number;

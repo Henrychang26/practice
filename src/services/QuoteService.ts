@@ -23,7 +23,7 @@ export const getQuote = async (
 
   const quoterContract = getQuoter();
 
-  const quote = await quoterContract.quoteExactInputSingle.staticCall(
+  const quote = await quoterContract.callStatic.quoteExactInputSingle(
     token0.address,
     token1.address,
     "3000",

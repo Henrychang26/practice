@@ -126,4 +126,4 @@ export const pools: poolsType = {
 };
 
 // export const GAS_LIMIT = ethers.utils.hexlify(1_000_000);
-export const GAS_LIMIT = ethers.toBeHex(1000000);
+export const GAS_LIMIT = ethers.utils.hexlify(1000000);

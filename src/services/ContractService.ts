@@ -11,8 +11,6 @@ import {
 } from "../constants";
 import AccountService from "./AccountService";
 
-const signer = AccountService.getAccountData();
-
 export const getSwapRouter = () => {
   return new ethers.Contract(
     contracts.SWAPROUTER.address,
