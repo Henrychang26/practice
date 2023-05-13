@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 import {
   contracts,
   ERC20ABI,
@@ -10,6 +10,8 @@ import {
   WethArtifact,
 } from "../constants";
 import AccountService from "./AccountService";
+
+const signer = AccountService.getAccountData();
 
 export const getSwapRouter = () => {
   return new ethers.Contract(

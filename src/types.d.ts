@@ -7,3 +7,12 @@ declare global {
     ethereum: Eip1193Provider & BrowserProvider;
   }
 }
+
+declare module "ethers" {
+  interface Signer {
+    approve(
+      spender: string,
+      value: ethers.BigNumberish
+    ): Promise<ethers.TransactionResponse>;
+  }
+}

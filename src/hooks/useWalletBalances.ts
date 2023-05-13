@@ -9,10 +9,10 @@ interface setWalletBalancesType {
 const useWalletBalances = () => {
   const [inputWalletBalance, _setInputWalletBalance] = useState<
     number | string | null
-  >();
+  >(null);
   const [outputWalletBalance, _setOutputWalletBalance] = useState<
     number | string | null
-  >();
+  >(null);
 
   const setWalletBalances = ({
     inputSymbol,
