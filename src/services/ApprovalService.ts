@@ -9,8 +9,8 @@ export default {
     const Allowance = await contract.allowance(walletAddress, spenderAddress);
     const allowance = Number(Allowance);
     const maxAllowance = tokenInfos[tokenSymbol].maxAllowance;
-    console.log(maxAllowance);
-    console.log(allowance);
+    // console.log(maxAllowance);
+    // console.log(allowance);
 
     return allowance - Number(maxAllowance) === 0;
   },

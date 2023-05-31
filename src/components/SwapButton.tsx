@@ -117,6 +117,8 @@ const SwapButton = ({
       return;
     }
 
+    console.log(isApproved);
+
     setText("Swap");
     setOnClickFunction(() => swapTokens);
     setTheme(swapTheme);
@@ -134,6 +136,7 @@ const SwapButton = ({
     isAskingPermission,
     isConfirming,
     isTransacting,
+    // () => updateButton,
   ]);
 
   return (

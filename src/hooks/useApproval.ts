@@ -25,11 +25,16 @@ const useApproval = (symbol: string) => {
       setIsAskingPermission
     );
 
-    const isApproved = await ApprovalService.isApprovedToken(
-      symbol,
-      contracts.SWAPROUTER.address
-    );
-    setIsApproved(isApproved);
+    try {
+      await ApprovalService.isApprovedToken(
+        symbol,
+        contracts.SWAPROUTER.address
+      );
+      setIsApproved(true);
+    } catch (e) {
+      console.log(e);
+    }
+    // console.log(isApproved);
   };
 
   return {
